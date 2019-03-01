@@ -5,24 +5,28 @@ public float twirl = 3;
 
 public void setup() 
 {   
-	size(640,480);    
+	size(650,500);    
 	noLoop(); 
 } 
 public void draw() 
 {   
-	background(0);  
+	for(int i = 0; i < 999; i++){
+		background((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256)); 
+	}
+	
 	strokeWeight(3);  
 	stroke(139,69,19);  
 	line(320,450,320,380);   
 	drawBranches(320,380,100,twirl*Math.PI/2);
+	branchAngle = mouseY/(480/.5);
 } 
 public void mousePressed() {
-	
+	fractionLength = fractionLength + .1;
 }
 public void drawBranches(int x,int y, double branchLength, double angle) 
 {   
-	double angle1 = angle - branchAngle;
-	double angle2 = angle + branchAngle;
+	double angle1 = angle - branchAngle + (mouseX-320) / (320/.3);
+	double angle2 = angle + branchAngle + (mouseX-320) / (320/.3);
 	double angle3 = angle2;
 	branchLength = branchLength * fractionLength;
 	int endX1 = (int)(branchLength * Math.cos(angle1) + x);
@@ -38,7 +42,7 @@ public void drawBranches(int x,int y, double branchLength, double angle)
 	line(x,y,endX2,endY2);
 	line(x,y,endX1,endY1);
 	
-	if(branchLength >= smallestBranch)
+	if(branchLength > smallestBranch)
 	{
 		drawBranches(endX1,endY1,(branchLength),angle1);
 		drawBranches(endX2,endY2,(branchLength),angle2);
